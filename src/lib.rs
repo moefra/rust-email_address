@@ -300,6 +300,7 @@ use serde::{Deserialize, Serialize, Serializer};
 use std::fmt::{Debug, Display, Formatter};
 use std::hash::Hash;
 use std::str::FromStr;
+use ts_rs::TS;
 
 // ------------------------------------------------------------------------------------------------
 // Public Types
@@ -432,7 +433,12 @@ pub struct Options {
 /// create an instance. The various components of the email _are not_ parsed out to be accessible
 /// independently.
 ///
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, rkyv::Archive, rkyv::Deserialize, rkyv::Serialize, TS)]
+#[ts(
+    export,
+    export_to = "email_address.d.ts",
+    type = "`${string}@${string}`"
+)]
 pub struct EmailAddress(String);
 
 // ------------------------------------------------------------------------------------------------
